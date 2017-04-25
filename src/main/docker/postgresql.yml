@@ -1,0 +1,11 @@
+version: '2'
+services:
+    osnoreggateway-postgresql:
+        image: postgres:9.6.2
+        # volumes:
+        #     - ~/volumes/jhipster/osnoreggateway/postgresql/:/var/lib/postgresql/
+        environment:
+            - POSTGRES_USER=osnoreggateway
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432

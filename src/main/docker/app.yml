@@ -1,0 +1,31 @@
+#-------------------------------------------------------------------------------
+# Note for using the rate-limiting:
+#   The comment part won't be copied if you use the subgenerator docker-compose
+#   you have to manually copy it
+#-------------------------------------------------------------------------------
+version: '2'
+services:
+    osnoreggateway-app:
+        image: osnoreggateway
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://osnoreggateway-postgresql:5432/osnoreggateway
+            - SPRING_DATA_CASSANDRA_CONTACTPOINTS=osnoreggateway-cassandra
+            - JHIPSTER_SLEEP=30 # gives time for the Cassandra cluster to start and execute the migration scripts
+        ports:
+            - 8080:8080
+    osnoreggateway-postgresql:
+        extends:
+            file: postgresql.yml
+            service: osnoreggateway-postgresql
+    # Uncomment to have Cassandra working with the gateway
+    # osnoreggateway-cassandra:
+    #     extends:
+    #         file: cassandra-cluster.yml
+    #         service: osnoreggateway-cassandra
+    # osnoreggateway-cassandra-migration:
+    #     extends:
+    #         file: cassandra-migration.yml
+    #         service: osnoreggateway-cassandra-migration
+    #     environment:
+    #         - CREATE_KEYSPACE_SCRIPT=create-keyspace-prod.cql
